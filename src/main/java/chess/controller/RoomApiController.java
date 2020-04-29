@@ -4,11 +4,10 @@ import chess.model.dto.CreateRoomDto;
 import chess.model.dto.DeleteRoomDto;
 import chess.model.dto.RoomsDto;
 import chess.service.ChessGameService;
-import chess.service.ResultService;
 import chess.service.RoomService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +28,7 @@ public class RoomApiController {
 		return roomService.getUsedRooms();
 	}
 
-	@PutMapping
+	@PostMapping
 	public RoomsDto createRoom(@RequestBody CreateRoomDto createRoomDto) {
 		roomService.addRoom(createRoomDto);
 		return roomService.getUsedRooms();

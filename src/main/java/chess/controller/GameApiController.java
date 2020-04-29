@@ -27,22 +27,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
-public class WebApiController {
+@RequestMapping("/api/game")
+public class GameApiController {
     private static final Gson GSON = new Gson();
 
     private final ChessGameService chessGameService;
-    private final RoomService roomService;
     private final ResultService resultService;
 
-    public WebApiController(ChessGameService chessGameService, RoomService roomService,
-                            ResultService resultService) {
+    public GameApiController(ChessGameService chessGameService, ResultService resultService) {
         this.chessGameService = chessGameService;
-        this.roomService = roomService;
         this.resultService = resultService;
     }
 
-    @PostMapping("/game/board")
+    @PostMapping("/board")
     public ChessGameDto board(@RequestBody String req) {
         JsonObject body = JsonParser.parseString(req).getAsJsonObject();
         Integer gameId = GSON.fromJson(body.get("gameId"), Integer.class);
@@ -50,24 +47,24 @@ public class WebApiController {
         return chessGameService.loadChessGame(gameId);
     }
 
-    @PostMapping("/game/move")
+    @PostMapping("/move")
     public ChessGameDto move(@RequestBody MoveDto MoveDto) {
         ChessGameDto chessGameDto = chessGameService.move(MoveDto);
         resultService.updateResult(chessGameDto);
         return chessGameDto;
     }
 
-    @PostMapping("/game/path")
+    @PostMapping("/path")
     public PathDto path(@RequestBody SourceDto sourceDto) {
         return chessGameService.findPath(sourceDto);
     }
 
-    @PostMapping("/game/promotion")
+    @PostMapping("/promotion")
     public ChessGameDto promotion(@RequestBody PromotionTypeDto promotionTypeDTO) {
         return chessGameService.promote(promotionTypeDTO);
     }
 
-    @PostMapping("/game/end")
+    @PostMapping("/end")
     public ChessGameDto end(@RequestBody String req) {
         JsonObject body = JsonParser.parseString(req).getAsJsonObject();
         Integer gameId = GSON.fromJson(body.get("gameId"), Integer.class);
@@ -75,15 +72,5 @@ public class WebApiController {
         ChessGameEntity chessGameEntity = chessGameService.closeGame(gameId);
         resultService.setGameResult(chessGameEntity);
         return new ChessGameDto(chessGameEntity.makeTeamScore(), chessGameEntity.makeUserNames());
-    }
-
-    @GetMapping("/result/viewUsers")
-    public UserNamesDto viewUsers() {
-        return resultService.getUsers();
-    }
-
-    @PostMapping("/result/userResult")
-    public GameResultDto userResult(@RequestBody UserNameDto userNameDto) {
-        return resultService.getResult(userNameDto);
     }
 }

@@ -44,7 +44,7 @@ creatRoom.onclick = () => {
     let roomName = createRoomName.value;
     let roomPassword = '';
     fetch('/api/room', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
