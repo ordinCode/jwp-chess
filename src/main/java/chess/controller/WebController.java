@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,8 +39,8 @@ public class WebController {
         return "start";
     }
 
-    @PostMapping("/game")
-    public String game(@RequestParam Integer roomId,
+    @PostMapping("/room/{roomId}/game")
+    public String game(@PathVariable Integer roomId,
         @RequestParam(defaultValue = "WHITE") String whiteName,
         @RequestParam(defaultValue = "BLACK") String blackName,
         Model model) {
