@@ -18,47 +18,28 @@ import chess.service.RoomService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class ApiWebController {
-
+public class WebApiController {
     private static final Gson GSON = new Gson();
 
     private final ChessGameService chessGameService;
     private final RoomService roomService;
     private final ResultService resultService;
 
-    public ApiWebController(ChessGameService chessGameService, RoomService roomService,
-        ResultService resultService) {
+    public WebApiController(ChessGameService chessGameService, RoomService roomService,
+                            ResultService resultService) {
         this.chessGameService = chessGameService;
         this.roomService = roomService;
         this.resultService = resultService;
-    }
-
-    @GetMapping("/viewRooms")
-    public RoomsDto viewRooms() {
-        return roomService.getUsedRooms();
-    }
-
-    @PostMapping("/createRoom")
-    public RoomsDto createRoom(@RequestBody CreateRoomDto createRoomDto) {
-        roomService.addRoom(createRoomDto);
-        return roomService.getUsedRooms();
-    }
-
-    @PostMapping("/deleteRoom")
-    public RoomsDto deleteRoom(@RequestBody DeleteRoomDto deleteRoomDto) {
-        roomService.deleteRoom(deleteRoomDto);
-        chessGameService.findProceedGameId(deleteRoomDto.getRoomId())
-            .ifPresent(chessGameService::closeGame);
-
-        return roomService.getUsedRooms();
     }
 
     @PostMapping("/game/board")

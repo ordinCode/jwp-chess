@@ -16,16 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class WebController {
-
     private final ChessGameService chessGameService;
     private final ResultService resultService;
-    private final RoomService roomService;
 
     public WebController(
-        ChessGameService chessGameService, ResultService resultService, RoomService roomService) {
+        ChessGameService chessGameService, ResultService resultService) {
         this.chessGameService = chessGameService;
         this.resultService = resultService;
-        this.roomService = roomService;
     }
 
     @GetMapping("/")
