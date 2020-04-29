@@ -33,10 +33,10 @@ public class WebController {
         return "index";
     }
 
-    @PostMapping("/start")
+    @PostMapping("/room")
     public String start(@RequestParam String roomId, Model model) {
         model.addAttribute("roomId", roomId);
-        return "start";
+        return "room";
     }
 
     @PostMapping("/room/{roomId}/game")
