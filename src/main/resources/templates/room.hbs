@@ -15,7 +15,7 @@
     <div class="room">
         <label class="mini-title">체스 게임을 시작하시겠습니까?</label><br/>
         <br/>
-        <form action="/game" id="start-game" method="post">
+        <form action="/room/{{roomId}}/game" id="start-game" method="post">
             <label class="room-name">화이트팀 이름(기본 WHITE) : </label>
             <input class="room-combo" id="white-name" maxlength="10" name="whiteName"
                    type="text"/><br>
@@ -50,6 +50,6 @@
         <button class="room-button" id="room-button">방 선택</button>
     </div>
 </section>
-<script src="/js/start.js" type="text/javascript"></script>
+<script src="/js/room.js" type="text/javascript"></script>
 </body>
 </html>
