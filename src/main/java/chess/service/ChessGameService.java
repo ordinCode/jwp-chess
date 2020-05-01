@@ -70,16 +70,17 @@ public class ChessGameService {
     private ChessGameEntity saveGame(Map<Team, String> userNames, Integer roomId,
         ChessGame chessGame) {
         RoomEntity roomEntity = roomRepository.findById(roomId)
-            .orElseThrow(IllegalArgumentException::new);
-        Map<Team, Double> teamScore = chessGame.deriveTeamScore().getTeamScore();
+                .orElseThrow(IllegalArgumentException::new);
+        TeamScore teamScore = chessGame.deriveTeamScore();
+        Map<Team, Double> teamScores = teamScore.getTeamScore();
 
         ChessGameEntity chessGameEntity = new ChessGameEntity(
-            chessGame.getTurn().getName()
-            , "Y"
-            , userNames.get(Team.BLACK)
-            , userNames.get(Team.WHITE)
-            , teamScore.get(Team.BLACK)
-            , teamScore.get(Team.WHITE));
+                chessGame.getTurn().getName()
+                , "Y"
+                , userNames.get(Team.BLACK)
+                , userNames.get(Team.WHITE)
+                , teamScores.get(Team.BLACK)
+                , teamScores.get(Team.WHITE));
         roomEntity.addGame(chessGameEntity);
         roomRepository.save(roomEntity);
 
